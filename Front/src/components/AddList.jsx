@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const AddList = () => {
-  const [name, setName] = useState("");
-  const [content, setContent] = useState([""]);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isFormVisible, setIsFormVisible] = useState(false); // Etat pour gérer la visibilité du formulaire
+  const [name, setName] = useState(""); // Nom de la liste
+  const [content, setContent] = useState([""]); // Contenu de la liste sous forme de tableau
+  const [errorMessage, setErrorMessage] = useState(""); // Message d'erreur
+  const [successMessage, setSuccessMessage] = useState(""); // Message de succès
+  const [isFormVisible, setIsFormVisible] = useState(false); // Pour gérer la visibilité du formulaire
 
-  // Gérer le changement du contenu des éléments de la liste
+  // Gérer les changements dans les champs de contenu
   const handleContentChange = (e, index) => {
     const updatedContent = [...content];
     updatedContent[index] = e.target.value;
     setContent(updatedContent);
   };
 
-  // Ajouter un champ au contenu de la liste
+  // Ajouter un nouveau champ de contenu
   const handleAddField = () => {
     setContent([...content, ""]);
   };
 
-  // Supprimer un champ du contenu de la liste
+  // Supprimer un champ de contenu
   const handleRemoveField = (index) => {
     const updatedContent = content.filter((_, i) => i !== index);
     setContent(updatedContent);
@@ -37,7 +37,6 @@ const AddList = () => {
 
     try {
       const token = localStorage.getItem("token");
-      console.log(token);
       if (!token) {
         setErrorMessage("You need to be logged in to create a list.");
         return;
@@ -53,16 +52,16 @@ const AddList = () => {
         }
       );
 
-      setSuccessMessage(response.data.message);
-      setName("");
-      setContent([""]);
-      setErrorMessage("");
-      setIsFormVisible(false); // Masquer le formulaire après la soumission
+      setSuccessMessage(response.data.message); // Afficher le message de succès
+      setName(""); // Réinitialiser le nom
+      setContent([""]); // Réinitialiser le contenu (une seule ligne)
+      setErrorMessage(""); // Réinitialiser le message d'erreur
+      setIsFormVisible(false); // Fermer le formulaire après soumission
     } catch (error) {
       if (error.response) {
         setErrorMessage(error.response.data.message);
       } else {
-        setErrorMessage("An unexpected error occurred");
+        setErrorMessage("An unexpected error occurred.");
       }
       setSuccessMessage("");
     }
@@ -74,12 +73,15 @@ const AddList = () => {
         onClick={() => setIsFormVisible(!isFormVisible)}
         className="bg-blue-500 text-white p-2 rounded mb-4"
       >
-        {isFormVisible ? "Close Form" : "Add New List"}
+        {isFormVisible ? "Close Form" : "Create New List"}
       </button>
 
       {isFormVisible && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white p-8 rounded shadow-lg max-w-lg w-full"
+          >
             <h2 className="text-2xl font-bold text-center mb-4">
               Create New List
             </h2>
