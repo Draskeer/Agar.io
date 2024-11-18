@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AddList from "./AddList";
-import ListDetails from "./ListDetails"; // Import du nouveau composant
+import ListDetails from "./ListDetails";
 
 const CoLists = () => {
   const [lists, setLists] = useState([]);
@@ -25,15 +25,15 @@ const CoLists = () => {
         `http://localhost:3001/api/list/${listId}`
       );
       setSelectedList(response.data.list);
-      setIsModalOpen(true); // Ouvrir le modal
+      setIsModalOpen(true);
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Fermer le modal
-    setSelectedList(null); // Réinitialiser les détails de la liste
+    setIsModalOpen(false);
+    setSelectedList(null);
   };
 
   useEffect(() => {

@@ -5,19 +5,18 @@ const ListDetails = ({ selectedList, onClose, fetchLists }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(selectedList.name);
   const [editContent, setEditContent] = useState(selectedList.content);
-  const [shareLink, setShareLink] = useState(null); // Nouvel état pour le lien de partage
-  const [copySuccess, setCopySuccess] = useState(""); // État pour gérer le statut de la copie
+  const [shareLink, setShareLink] = useState(null);
+  const [copySuccess, setCopySuccess] = useState("");
 
   const handleModifyClick = () => {
     if (isEditing) {
-      // Enregistrer les modifications
       const updatedList = {
         name: editName,
         content: editContent,
       };
       handleUpdateList(updatedList);
     } else {
-      setIsEditing(true); // Passer en mode édition
+      setIsEditing(true);
     }
   };
 
@@ -28,7 +27,7 @@ const ListDetails = ({ selectedList, onClose, fetchLists }) => {
   };
 
   const handleAddField = () => {
-    setEditContent([...editContent, ""]); // Ajouter une case vide
+    setEditContent([...editContent, ""]);
   };
 
   const handleUpdateList = async (updatedList) => {
@@ -45,8 +44,8 @@ const ListDetails = ({ selectedList, onClose, fetchLists }) => {
       );
 
       alert("List updated successfully");
-      fetchLists(); // Recharger les listes après la modification
-      onClose(); // Fermer le modal
+      fetchLists();
+      onClose();
     } catch (error) {
       console.error(error);
       alert("Error updating the list");
@@ -65,8 +64,8 @@ const ListDetails = ({ selectedList, onClose, fetchLists }) => {
         }
       );
       alert("List deleted successfully");
-      onClose(); // Fermer le modal
-      fetchLists(); // Recharger les listes après la suppression
+      onClose();
+      fetchLists();
     } catch (error) {
       console.error(error);
       alert("Error deleting the list");
@@ -85,7 +84,7 @@ const ListDetails = ({ selectedList, onClose, fetchLists }) => {
           },
         }
       );
-      setShareLink(response.data.link); // Stocke le lien d'invitation
+      setShareLink(response.data.link);
     } catch (error) {
       console.error(error);
       alert("Error generating the invitation link");

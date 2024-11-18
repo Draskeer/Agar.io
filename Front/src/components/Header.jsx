@@ -43,8 +43,8 @@ const Header = () => {
   };
 
   return (
-    <header className="p-4 bg-blue-500 text-white flex justify-between items-center">
-      <h1 className="text-xl font-bold">My App</h1>
+    <header className="p-4 bg-white text-black flex justify-between items-center">
+      <h1 className="text-xl font-bold">CoList</h1>
 
       {isLoggedIn && (
         <div className="flex items-center gap-4">
@@ -55,7 +55,6 @@ const Header = () => {
             Join a List
           </button>
 
-          {/* Logout Button */}
           <button
             onClick={handleLogout}
             className="bg-red-500 text-white px-4 py-2 rounded-md"
@@ -73,7 +72,7 @@ const Header = () => {
             </h2>
             <textarea
               value={joinLink}
-              onChange={(e) => setJoinLink(e.target.value)} // Correctement lié
+              onChange={(e) => setJoinLink(e.target.value)}
               placeholder="Paste the list link here"
               className="w-full text-black border p-2 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

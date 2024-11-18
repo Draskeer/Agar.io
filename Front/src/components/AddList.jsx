@@ -2,31 +2,27 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const AddList = () => {
-  const [name, setName] = useState(""); // Nom de la liste
-  const [content, setContent] = useState([""]); // Contenu de la liste sous forme de tableau
-  const [errorMessage, setErrorMessage] = useState(""); // Message d'erreur
-  const [successMessage, setSuccessMessage] = useState(""); // Message de succès
-  const [isFormVisible, setIsFormVisible] = useState(false); // Pour gérer la visibilité du formulaire
+  const [name, setName] = useState("");
+  const [content, setContent] = useState([""]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
-  // Gérer les changements dans les champs de contenu
   const handleContentChange = (e, index) => {
     const updatedContent = [...content];
     updatedContent[index] = e.target.value;
     setContent(updatedContent);
   };
 
-  // Ajouter un nouveau champ de contenu
   const handleAddField = () => {
     setContent([...content, ""]);
   };
 
-  // Supprimer un champ de contenu
   const handleRemoveField = (index) => {
     const updatedContent = content.filter((_, i) => i !== index);
     setContent(updatedContent);
   };
 
-  // Soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,11 +48,11 @@ const AddList = () => {
         }
       );
 
-      setSuccessMessage(response.data.message); // Afficher le message de succès
-      setName(""); // Réinitialiser le nom
-      setContent([""]); // Réinitialiser le contenu (une seule ligne)
-      setErrorMessage(""); // Réinitialiser le message d'erreur
-      setIsFormVisible(false); // Fermer le formulaire après soumission
+      setSuccessMessage(response.data.message);
+      setName("");
+      setContent([""]);
+      setErrorMessage("");
+      setIsFormVisible(false);
     } catch (error) {
       if (error.response) {
         setErrorMessage(error.response.data.message);
@@ -137,7 +133,6 @@ const AddList = () => {
               </button>
             </form>
 
-            {/* Afficher les messages d'erreur ou de succès */}
             {errorMessage && (
               <div className="text-red-500 mt-2">{errorMessage}</div>
             )}
