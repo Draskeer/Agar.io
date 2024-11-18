@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
 
     const userData = {
-      pseudo, // Utilisez "pseudo" au lieu de "email"
+      pseudo,
       password,
     };
 
@@ -22,10 +22,10 @@ const Login = () => {
         userData
       );
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("pseudo", pseudo);
       alert("Login successful");
 
-      // Redirection vers la page CoLists après la connexion réussie
-      navigate("/CoLists"); // Rediriger vers CoLists
+      navigate("/CoLists");
     } catch (error) {
       setErrorMessage("Invalid pseudo or password.");
     }

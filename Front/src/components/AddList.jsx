@@ -4,44 +4,58 @@ import axios from "axios";
 const AddList = () => {
   const [name, setName] = useState("");
   const [content, setContent] = useState([""]);
-  const [pseudo, setPseudo] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false); // Etat pour gérer la visibilité du formulaire
 
+  // Gérer le changement du contenu des éléments de la liste
   const handleContentChange = (e, index) => {
     const updatedContent = [...content];
     updatedContent[index] = e.target.value;
     setContent(updatedContent);
   };
 
+  // Ajouter un champ au contenu de la liste
   const handleAddField = () => {
     setContent([...content, ""]);
   };
 
+  // Supprimer un champ du contenu de la liste
   const handleRemoveField = (index) => {
     const updatedContent = content.filter((_, i) => i !== index);
     setContent(updatedContent);
   };
 
+  // Soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const listData = {
       name,
       content,
-      pseudo,
     };
 
     try {
+      const token = localStorage.getItem("token");
+      console.log(token);
+      if (!token) {
+        setErrorMessage("You need to be logged in to create a list.");
+        return;
+      }
+
       const response = await axios.post(
         "http://localhost:3001/api/list/create",
-        listData
+        listData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       setSuccessMessage(response.data.message);
       setName("");
       setContent([""]);
-      setPseudo("");
       setErrorMessage("");
       setIsFormVisible(false); // Masquer le formulaire après la soumission
     } catch (error) {
@@ -56,7 +70,6 @@ const AddList = () => {
 
   return (
     <div>
-      {/* Bouton pour afficher/masquer le formulaire */}
       <button
         onClick={() => setIsFormVisible(!isFormVisible)}
         className="bg-blue-500 text-white p-2 rounded mb-4"
@@ -64,7 +77,6 @@ const AddList = () => {
         {isFormVisible ? "Close Form" : "Add New List"}
       </button>
 
-      {/* Affichage conditionnel du formulaire */}
       {isFormVisible && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded shadow-lg max-w-lg w-full">
@@ -115,18 +127,6 @@ const AddList = () => {
                   Add another item
                 </button>
               </div>
-
-              <div>
-                <label>Your Pseudo:</label>
-                <input
-                  type="text"
-                  value={pseudo}
-                  onChange={(e) => setPseudo(e.target.value)}
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-
               <button
                 type="submit"
                 className="bg-blue-500 text-white p-2 rounded w-full mt-4"

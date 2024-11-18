@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const jwt = require("jsonwebtoken");  // Importation correcte de jsonwebtoken
 
 const app = express();
 
